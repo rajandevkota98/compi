@@ -6,7 +6,7 @@ const VERB: Record<RunEvent["kind"], string> = {
   failed: "failed", blocked: "waiting", finished: "run finished", error: "run error",
 };
 
-/** Every event of the session's runs, newest first, like a weaver's tally. */
+/** Every event of the session's runs, newest first. */
 export function Ledger({ events, onPick }: { events: RunEvent[]; onPick: (id: string) => void }) {
   const total = events.reduce((sum, e) => sum + (e.cost ?? 0), 0);
   return (
