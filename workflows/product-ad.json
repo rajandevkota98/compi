@@ -1,0 +1,176 @@
+{
+  "spec": {
+    "id": "product-ad",
+    "name": "Product photo → ad campaign",
+    "version": 1,
+    "nodes": [
+      {
+        "id": "photo",
+        "type": "image.input",
+        "params": {
+          "asset": ""
+        }
+      },
+      {
+        "id": "brief",
+        "type": "text.input",
+        "params": {
+          "text": "Handmade tan leather sneaker. Launching for the festive gift season. Audience: young professionals in the city."
+        }
+      },
+      {
+        "id": "ideas",
+        "type": "llm.list",
+        "params": {
+          "count": 3,
+          "effort": "medium",
+          "instructions": "You are an ad creative director. From the product brief and photo, write distinct photo-shoot scene ideas for social media ads. Each item is one vivid sentence: setting, props, light and mood. Do not redesign the product."
+        }
+      },
+      {
+        "id": "each",
+        "type": "list.iterate",
+        "params": {}
+      },
+      {
+        "id": "style",
+        "type": "text.input",
+        "params": {
+          "text": "Product advertising photograph. Keep the product from the reference image exactly the same: shape, colour, material and details. Scene:"
+        }
+      },
+      {
+        "id": "prompt",
+        "type": "prompt.concat",
+        "params": {
+          "separator": " "
+        }
+      },
+      {
+        "id": "shot",
+        "type": "image.generate",
+        "params": {
+          "model": "google/gemini-3.1-flash-image",
+          "aspect_ratio": "4:5",
+          "seed": 0
+        },
+        "check": {
+          "type": "check.vision",
+          "params": {
+            "rules": "The product in the output is the same product as in the reference photo (same shape, colour, material). The scene matches the prompt. No garbled text and no extra products.",
+            "effort": "low"
+          },
+          "max_retries": 1
+        }
+      },
+      {
+        "id": "post",
+        "type": "image.resize",
+        "params": {
+          "width": 1080,
+          "height": 1350,
+          "fit": "cover"
+        }
+      },
+      {
+        "id": "board",
+        "type": "list.collect",
+        "params": {}
+      }
+    ],
+    "edges": [
+      {
+        "source": "brief",
+        "source_port": "text",
+        "target": "ideas",
+        "target_port": "prompt"
+      },
+      {
+        "source": "photo",
+        "source_port": "image",
+        "target": "ideas",
+        "target_port": "image"
+      },
+      {
+        "source": "ideas",
+        "source_port": "items",
+        "target": "each",
+        "target_port": "items"
+      },
+      {
+        "source": "style",
+        "source_port": "text",
+        "target": "prompt",
+        "target_port": "part1"
+      },
+      {
+        "source": "each",
+        "source_port": "item",
+        "target": "prompt",
+        "target_port": "part2"
+      },
+      {
+        "source": "prompt",
+        "source_port": "text",
+        "target": "shot",
+        "target_port": "prompt"
+      },
+      {
+        "source": "photo",
+        "source_port": "image",
+        "target": "shot",
+        "target_port": "ref1"
+      },
+      {
+        "source": "shot",
+        "source_port": "image",
+        "target": "post",
+        "target_port": "image"
+      },
+      {
+        "source": "post",
+        "source_port": "image",
+        "target": "board",
+        "target_port": "items"
+      }
+    ]
+  },
+  "layout": {
+    "photo": {
+      "x": 0,
+      "y": 0
+    },
+    "brief": {
+      "x": 0,
+      "y": 380
+    },
+    "ideas": {
+      "x": 380,
+      "y": 200
+    },
+    "each": {
+      "x": 760,
+      "y": 200
+    },
+    "style": {
+      "x": 760,
+      "y": 420
+    },
+    "prompt": {
+      "x": 1100,
+      "y": 300
+    },
+    "shot": {
+      "x": 1440,
+      "y": 160
+    },
+    "post": {
+      "x": 1800,
+      "y": 160
+    },
+    "board": {
+      "x": 2140,
+      "y": 160
+    }
+  }
+}
