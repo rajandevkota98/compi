@@ -1,0 +1,48 @@
+[project]
+name = "compi"
+version = "0.1.0"
+description = "Node-based AI image and video studio on LangGraph"
+readme = "README.md"
+authors = [
+    { name = "rajandevkota98", email = "r.devkota.98@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic>=2.12.0",
+    "fastapi>=0.165.0",
+    "httpx>=0.28.1",
+    "langgraph>=1.2.24",
+    "pillow>=13.0.0",
+    "pydantic>=2.14.4",
+    "python-multipart>=0.0.34",
+    "rembg[cpu]>=2.0.87",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.9.24,<0.10.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.414",
+    "pytest>=9.2.0",
+    "pytest-asyncio>=1.5.0",
+    "ruff>=0.17.6",
+]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.pyright]
+typeCheckingMode = "strict"
+include = ["src", "tests"]
+reportMissingTypeStubs = false
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
