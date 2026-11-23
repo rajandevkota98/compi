@@ -1,0 +1,113 @@
+{
+  "spec": {
+    "id": "product-cutout",
+    "name": "Cut out product → new backdrop",
+    "version": 1,
+    "nodes": [
+      {
+        "id": "photo",
+        "type": "image.input",
+        "params": {
+          "asset": ""
+        }
+      },
+      {
+        "id": "cutout",
+        "type": "image.remove_bg",
+        "params": {}
+      },
+      {
+        "id": "scene",
+        "type": "text.input",
+        "params": {
+          "text": "Empty marble pedestal in a minimal studio, soft morning window light, nothing on the pedestal."
+        }
+      },
+      {
+        "id": "backdrop",
+        "type": "image.generate",
+        "params": {
+          "model": "google/gemini-3.1-flash-image",
+          "aspect_ratio": "1:1",
+          "seed": 0
+        }
+      },
+      {
+        "id": "place",
+        "type": "image.composite",
+        "params": {
+          "x": 0.5,
+          "y": 0.55,
+          "scale": 0.55
+        }
+      },
+      {
+        "id": "grade",
+        "type": "image.adjust",
+        "params": {
+          "brightness": 1.05,
+          "contrast": 1.1,
+          "saturation": 1.05
+        }
+      }
+    ],
+    "edges": [
+      {
+        "source": "photo",
+        "source_port": "image",
+        "target": "cutout",
+        "target_port": "image"
+      },
+      {
+        "source": "scene",
+        "source_port": "text",
+        "target": "backdrop",
+        "target_port": "prompt"
+      },
+      {
+        "source": "backdrop",
+        "source_port": "image",
+        "target": "place",
+        "target_port": "background"
+      },
+      {
+        "source": "cutout",
+        "source_port": "image",
+        "target": "place",
+        "target_port": "foreground"
+      },
+      {
+        "source": "place",
+        "source_port": "image",
+        "target": "grade",
+        "target_port": "image"
+      }
+    ]
+  },
+  "layout": {
+    "photo": {
+      "x": 0,
+      "y": 0
+    },
+    "cutout": {
+      "x": 360,
+      "y": 0
+    },
+    "scene": {
+      "x": 0,
+      "y": 320
+    },
+    "backdrop": {
+      "x": 360,
+      "y": 320
+    },
+    "place": {
+      "x": 720,
+      "y": 160
+    },
+    "grade": {
+      "x": 1060,
+      "y": 160
+    }
+  }
+}
