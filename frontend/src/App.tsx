@@ -233,7 +233,7 @@ export default function App() {
             <button className={mode === "gallery" ? "on" : ""} onClick={() => setMode("gallery")}>Gallery</button>
           </div>
           <button className="primary" onClick={() => void run()} disabled={running > 0}>
-            {running > 0 ? "Weaving…" : "Run all"}
+            {running > 0 ? "Running…" : "Run all"}
           </button>
         </header>
 

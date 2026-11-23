@@ -33,7 +33,7 @@ export function AppMode({ nodes, edges, running, onRun }: {
             )}
           </fieldset>
         ))}
-        <button className="primary" disabled={running}>{running ? "Weaving…" : "Run"}</button>
+        <button className="primary" disabled={running}>{running ? "Running…" : "Run"}</button>
       </form>
       <div className="results">
         {results.map((n) => (
