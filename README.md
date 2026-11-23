@@ -6,6 +6,10 @@ A node-based AI image workflow studio, in the spirit of Figma Weave and ComfyUI.
 Each node has inputs, settings (prompt, model…) and outputs; wire them on a canvas, run one node
 or all, attach a **checker agent** to any node, and watch every step live.
 
+![Compi demo: inspecting nodes on the canvas, App mode and the gallery](docs/demo.gif)
+
+<sub>Full-quality video: [docs/demo.mp4](docs/demo.mp4)</sub>
+
 - **Engine:** Python + LangGraph. A workflow is JSON; only nodes whose inputs or settings changed run
   again (Merkle-keyed cache). Lists run downstream nodes once per item, in parallel.
 - **Checker agents:** retry the node with the checker's fix hint, then flag it for a person.
