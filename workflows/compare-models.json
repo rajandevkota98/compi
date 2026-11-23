@@ -1,0 +1,113 @@
+{
+  "spec": {
+    "id": "compare-models",
+    "name": "One prompt → three image models",
+    "version": 1,
+    "nodes": [
+      {
+        "id": "idea",
+        "type": "text.input",
+        "params": {
+          "text": "A cosy tea stall in the Himalayan foothills at dawn, steam rising from the kettle."
+        }
+      },
+      {
+        "id": "better",
+        "type": "llm.enhance",
+        "params": {
+          "effort": "low"
+        }
+      },
+      {
+        "id": "route",
+        "type": "router",
+        "params": {}
+      },
+      {
+        "id": "gemini",
+        "type": "image.generate",
+        "params": {
+          "model": "google/gemini-3.1-flash-image",
+          "aspect_ratio": "16:9",
+          "seed": 0
+        }
+      },
+      {
+        "id": "gpt",
+        "type": "image.generate",
+        "params": {
+          "model": "openai/gpt-image-2",
+          "aspect_ratio": "16:9",
+          "seed": 0
+        }
+      },
+      {
+        "id": "flux",
+        "type": "image.generate",
+        "params": {
+          "model": "black-forest-labs/flux-3-image",
+          "aspect_ratio": "16:9",
+          "seed": 0
+        }
+      }
+    ],
+    "edges": [
+      {
+        "source": "idea",
+        "source_port": "text",
+        "target": "better",
+        "target_port": "prompt"
+      },
+      {
+        "source": "better",
+        "source_port": "text",
+        "target": "route",
+        "target_port": "in"
+      },
+      {
+        "source": "route",
+        "source_port": "out",
+        "target": "gemini",
+        "target_port": "prompt"
+      },
+      {
+        "source": "route",
+        "source_port": "out",
+        "target": "gpt",
+        "target_port": "prompt"
+      },
+      {
+        "source": "route",
+        "source_port": "out",
+        "target": "flux",
+        "target_port": "prompt"
+      }
+    ]
+  },
+  "layout": {
+    "idea": {
+      "x": 0,
+      "y": 200
+    },
+    "better": {
+      "x": 360,
+      "y": 200
+    },
+    "route": {
+      "x": 720,
+      "y": 200
+    },
+    "gemini": {
+      "x": 1040,
+      "y": 0
+    },
+    "gpt": {
+      "x": 1040,
+      "y": 320
+    },
+    "flux": {
+      "x": 1040,
+      "y": 640
+    }
+  }
+}
